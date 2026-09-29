@@ -1,0 +1,130 @@
+@import "tailwindcss";
+@import "tw-animate-css";
+
+@custom-variant dark (&:is(.dark *));
+
+:root {
+  --radius: 1rem;
+  --background: oklch(0.982 0.008 80);
+  --foreground: oklch(0.2 0.012 50);
+  --card: oklch(1 0 0);
+  --card-foreground: oklch(0.2 0.012 50);
+  --popover: oklch(1 0 0);
+  --popover-foreground: oklch(0.2 0.012 50);
+  --primary: oklch(0.66 0.19 45);
+  --primary-foreground: oklch(0.99 0.005 80);
+  --secondary: oklch(0.95 0.02 80);
+  --secondary-foreground: oklch(0.25 0.015 50);
+  --muted: oklch(0.95 0.012 80);
+  --muted-foreground: oklch(0.5 0.015 60);
+  --accent: oklch(0.94 0.035 75);
+  --accent-foreground: oklch(0.25 0.015 50);
+  --sun: oklch(0.83 0.13 78);
+  --destructive: oklch(0.58 0.22 27);
+  --border: oklch(0.9 0.015 75);
+  --input: oklch(0.88 0.015 75);
+  --ring: oklch(0.66 0.19 45);
+  --ink: oklch(0.2 0.012 50);
+  --ink-foreground: oklch(0.97 0.01 80);
+}
+
+.dark {
+  --background: oklch(0.16 0.008 55);
+  --foreground: oklch(0.95 0.01 80);
+  --card: oklch(0.2 0.01 55);
+  --card-foreground: oklch(0.95 0.01 80);
+  --popover: oklch(0.21 0.01 55);
+  --popover-foreground: oklch(0.95 0.01 80);
+  --primary: oklch(0.72 0.18 50);
+  --primary-foreground: oklch(0.16 0.01 55);
+  --secondary: oklch(0.25 0.012 55);
+  --secondary-foreground: oklch(0.95 0.01 80);
+  --muted: oklch(0.24 0.01 55);
+  --muted-foreground: oklch(0.7 0.015 70);
+  --accent: oklch(0.28 0.025 60);
+  --accent-foreground: oklch(0.95 0.01 80);
+  --sun: oklch(0.8 0.13 78);
+  --destructive: oklch(0.65 0.2 25);
+  --border: oklch(1 0 0 / 10%);
+  --input: oklch(1 0 0 / 14%);
+  --ring: oklch(0.72 0.18 50);
+  --ink: oklch(0.95 0.01 80);
+  --ink-foreground: oklch(0.16 0.008 55);
+}
+
+@theme inline {
+  --font-sans: "Geist", ui-sans-serif, system-ui, sans-serif;
+  --font-display: "Bricolage Grotesque", "Geist", ui-sans-serif, system-ui, sans-serif;
+  --font-mono: "Geist Mono", ui-monospace, monospace;
+  --radius-sm: calc(var(--radius) - 6px);
+  --radius-md: calc(var(--radius) - 4px);
+  --radius-lg: var(--radius);
+  --radius-xl: calc(var(--radius) + 4px);
+  --color-background: var(--background);
+  --color-foreground: var(--foreground);
+  --color-card: var(--card);
+  --color-card-foreground: var(--card-foreground);
+  --color-popover: var(--popover);
+  --color-popover-foreground: var(--popover-foreground);
+  --color-primary: var(--primary);
+  --color-primary-foreground: var(--primary-foreground);
+  --color-secondary: var(--secondary);
+  --color-secondary-foreground: var(--secondary-foreground);
+  --color-muted: var(--muted);
+  --color-muted-foreground: var(--muted-foreground);
+  --color-accent: var(--accent);
+  --color-accent-foreground: var(--accent-foreground);
+  --color-destructive: var(--destructive);
+  --color-border: var(--border);
+  --color-input: var(--input);
+  --color-ring: var(--ring);
+  --color-sun: var(--sun);
+  --color-ink: var(--ink);
+  --color-ink-foreground: var(--ink-foreground);
+
+  --animate-marquee: marquee 38s linear infinite;
+  --animate-spin-slow: spin 14s linear infinite;
+  @keyframes marquee {
+    from { transform: translateX(0); }
+    to { transform: translateX(-50%); }
+  }
+}
+
+@layer base {
+  * { @apply border-border outline-ring/50; }
+  html { scroll-behavior: smooth; }
+  body {
+    @apply bg-background text-foreground font-sans antialiased;
+    font-feature-settings: "ss01", "cv11";
+  }
+  ::selection { background: var(--primary); color: var(--primary-foreground); }
+}
+
+@utility grain {
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.85' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='.5'/%3E%3C/svg%3E");
+}
+
+@utility dot-grid {
+  background-image: radial-gradient(color-mix(in oklch, var(--foreground) 14%, transparent) 1px, transparent 1px);
+  background-size: 22px 22px;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html { scroll-behavior: auto; }
+  *, *::before, *::after { animation-duration: .01ms !important; animation-iteration-count: 1 !important; transition-duration: .01ms !important; }
+}
+
+/* Unlayered on purpose: beats any host/reset stylesheet (cascade layers always lose to unlayered CSS),
+   so the page background, text colour and font always follow the active theme. */
+html, body {
+  background-color: var(--background);
+  color: var(--foreground);
+}
+body {
+  margin: 0;
+  font-family: "Geist", ui-sans-serif, system-ui, -apple-system, "Segoe UI", sans-serif;
+  font-size: 16px;
+  line-height: 1.5;
+}
+html { color-scheme: light; }
+html.dark { color-scheme: dark; }
